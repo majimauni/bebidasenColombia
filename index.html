@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+<font face="Comic Sans MS,arial,verdana" size="5" color="black">EMPRESAS DE BEBIDAS Y GASEOSAS EN COLOMBIA EN 2015</font>
+
+
+</head>
+
+<body>
+<DIV align="center">
+<p>Un sector importante en la economía Colombiana es el de bebidas y gaseosas, representado a nivel de empresas en el siguiente Circle Package.<br>Las tareas que se pretenen acotar son:<br>-  Presentar las empresas de cervezas, jugos, aguas y gaseosas que dominaron el mercado en Colombia durante el 2015 <br>-  Descubrir cuáles empresas tienen alianzas y dependencia de otras. Cabe resaltar que una alianza con una gran empresa implica exclusión con otra (principio: unico padre) <br>Para leer What?Why? and How? Dirijase al README en el código de Github<br><a href=”http://www.lanota.com/index.php/CONFIDENCIAS/Ranking-2015-sectores-cerveza-y-gaseosas-de-Colombia.html”>Accede a los datos aquí</a><br><a href=””>Accede al código aquí</a><br><a href=”http://johnguerra.co/classes/visual_analytics_fall_2017/students/index.html”>Accede a la página del curso aquí</a></p>
+</DIV>
+</body>
+
+</html>
+<style type="text/css">
+body {text-align: center}
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+</style>
+<svg width="600" height="600"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = 20,
+    diameter = +svg.attr("width"),
+    g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+var color = d3.scaleLinear()
+    .domain([-1, 5])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl);
+
+var pack = d3.pack()
+    .size([diameter - margin, diameter - margin])
+    .padding(2);
+
+d3.json("flare.json", function(error, root) {
+  if (error) throw error;
+
+  root = d3.hierarchy(root)
+      .sum(function(d) { return d.size; })
+      .sort(function(a, b) { return b.value - a.value; });
+
+  var focus = root,
+      nodes = pack(root).descendants(),
+      view;
+
+  var circle = g.selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+
+  var text = g.selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+      .text(function(d) { return d.data.name; });
+
+  var node = g.selectAll("circle,text");
+
+  svg
+      .style("background", color(-1))
+      .on("click", function() { zoom(root); });
+
+  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+  function zoom(d) {
+    var focus0 = focus; focus = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+  }
+});
+
+</script>
+
+<body>
+<DIV align="center">
+<p>WHAT? <br>Datos de Empresas de gaseosas y bebidas en Colombia para el 2015<br>Dataset: Estático<br>Tipo de Dataset: Tree<br>Nodo hijo: Empresas pequeñas- dependientes de grandes<br>Nodo padre: Empresas grande<br>WHY?<br>Presentar las empresas de cervezas y gaseosas que dominaron el mercado en el 2015<br>
+Descubrir cuáles empresas dependen de otras<br>HOW?<br>Modismo: Circle Package<br>Marca:  área (círculos para representar las empresas)<br>Canal: forma y tamaño.<br>El tamaño del circulo representa la magnitud de consumo ó cantidad de consumidores. Por ello:<br>
+1. Se podría afirmar que se consumen más gaseosas,jugos y aguas, que cervezas.<br>
+2. Postobón supera por poco a Indega (distribuidor de Cocacola) en consumo<br>
+3. Postobón consolidado incluye a Gaseosas Posada Tobón, Gaseosas Lux, Gaseosas Colombianas, Gaseosas Hipinto, Gaseosas de Córdoba, y Gaseosas de la Sabana.<br>
+4. Las empresas relacionadas con Indega son Embotelladora de la Sabana, Coca Cola Servicios, Embotelladora del Huila, y Nuevas Bebidas de Colombia. Más atrás se posicionaron Big Cola y Pepsi Cola Colombia.<br>
+5. Las empresas de jugos y aguas tienen el mismo tamaño porque no se tiene claridad del consumo individual. Al igual, que con las empresas cerveceras.<br></p>
+</DIV>
+</body>

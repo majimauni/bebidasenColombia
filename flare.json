@@ -1,0 +1,69 @@
+{
+ "name": "BEBIDAS",
+ "children": [
+  {
+   "name": "Jugos y aguas",
+   "children": [
+    {"name": "Gaseosas Glacial", "size": 2893},
+    {"name": "Hielos Iglu", "size": 2893},
+    {"name": "Colbesa (Gatorade)", "size": 2893},
+    {"name": "Gaseosas Leticia", "size": 2893},
+    {"name": "Hielo Barranquillita", "size": 2893},
+    {"name": "Hielos Cúcuta", "size": 2893},
+    {"name": "Distribuidora Dimex", "size": 2893},
+    {"name": "Icee Colombia", "size": 2893},
+    {"name": "Mei Production", "size": 2893},
+    {"name": "Gaseosas Río", "size": 2893}
+  ]
+  },
+  {
+   "name": "Gaseosas",
+   "children": [
+    {"name": "Pepsi Cola Colombia", "size": 8217},
+    {"name": "Big Cola", "size": 5217},
+    {
+     "name": "Postobón",
+     "children": [
+      {"name": "Gaseosas Posada Tobón", "size": 3367},
+      {"name": "Gaseosas Lux", "size": 1229},
+      {"name": "Gaseosas Colombianas", "size": 2059},
+      {"name": "Gaseosas Hipinto", "size": 1229},
+      {"name": "Gaseosas de Córdoba", "size": 1229},
+      {"name": "Gaseosas de la Sabana", "size": 1229}
+     ]
+    },
+    {"name": "Indega", "size": 22026,
+      "children": [
+      {"name": "Embotelladora de la Sabana", "size": 1165},
+      {"name": "Coca Cola Servicios", "size": 3366},
+      {"name": "Embotelladora del Huila", "size": 1366},
+      {"name": "Nuevas Bebidas de Colombia", "size": 1366}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Cervezas",
+   "children": [
+    {
+     "name": "Artesana Beer Company","size": 1291},
+     {
+     "name": "Ambev Colombia","size": 1291},
+     {
+     "name": "Inducerv","size": 1291},
+     {
+     "name": "Cervecería Colón","size": 1291},
+
+    {
+     "name": "Bavaria",
+     "children": [
+      {"name": "Cervecería Unión", "size": 1291},
+      {"name": "Cervecería del Valle", "size": 1291},
+      {"name": "Maltería Tropical", "size": 1291}
+     ]
+    },
+     {"name": "Cervecería BBC", "size": 1291}
+   ]
+  }
+ ]
+}
